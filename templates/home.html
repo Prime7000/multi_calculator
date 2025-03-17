@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator & Unit Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .calculator input, .converter input, select, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+        button {
+            cursor: pointer;
+            border: none;
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #bbb;
+        }
+        .converter {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calculator</h1>
+        <input type="text" id="display" disabled>
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button onclick="appendToDisplay('/')">/</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button onclick="appendToDisplay('*')">*</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button onclick="appendToDisplay('-')">-</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="appendToDisplay('+')">+</button>
+        </div>
+
+        <div class="converter">
+            <h1>Unit Converter</h1>
+
+            <h2>Temperature</h2>
+            <input type="number" id="tempInput" placeholder="Enter temperature">
+            <select id="tempUnit">
+                <option value="C">Celsius to Fahrenheit</option>
+                <option value="F">Fahrenheit to Celsius</option>
+            </select>
+            <button onclick="convertTemperature()">Convert</button>
+            <p id="tempResult"></p>
+
+            <h2>Weight</h2>
+            <input type="number" id="weightInput" placeholder="Enter weight">
+            <select id="weightUnit">
+                <option value="kg">Kilograms to Pounds</option>
+                <option value="lb">Pounds to Kilograms</option>
+            </select>
+            <button onclick="convertWeight()">Convert</button>
+            <p id="weightResult"></p>
+
+            <h2>Distance</h2>
+            <input type="number" id="distanceInput" placeholder="Enter distance">
+            <select id="distanceUnit">
+                <option value="km">Kilometers to Miles</option>
+                <option value="mi">Miles to Kilometers</option>
+            </select>
+            <button onclick="convertDistance()">Convert</button>
+            <p id="distanceResult"></p>
+        </div>
+    </div>
+
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+        }
+
+        function calculate() {
+            try {
+                document.getElementById('display').value = eval(document.getElementById('display').value);
+            } catch {
+                alert("Invalid Calculation");
+            }
+        }
+
+        function convertTemperature() {
+            let temp = parseFloat(document.getElementById("tempInput").value);
+            let unit = document.getElementById("tempUnit").value;
+            let result = 0;
+
+            if (unit === "C") {
+                result = (temp * 9/5) + 32;
+                document.getElementById("tempResult").innerText = result.toFixed(2) + " °F";
+            } else {
+                result = (temp - 32) * 5/9;
+                document.getElementById("tempResult").innerText = result.toFixed(2) + " °C";
+            }
+        }
+
+        function convertWeight() {
+            let weight = parseFloat(document.getElementById("weightInput").value);
+            let unit = document.getElementById("weightUnit").value;
+            let result = unit === "kg" ? weight * 2.20462 : weight / 2.20462;
+            
+            document.getElementById("weightResult").innerText = result.toFixed(2) + (unit === "kg" ? " lbs" : " kg");
+        }
+
+        function convertDistance() {
+            let distance = parseFloat(document.getElementById("distanceInput").value);
+            let unit = document.getElementById("distanceUnit").value;
+            let result = unit === "km" ? distance * 0.621371 : distance / 0.621371;
+            
+            document.getElementById("distanceResult").innerText = result.toFixed(2) + (unit === "km" ? " miles" : " km");
+        }
+    </script>
+
+</body>
+</html>
